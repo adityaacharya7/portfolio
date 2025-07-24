@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aditya Acharya | Tech News</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Exo+2:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: #0a0a0a;
+            color: #e5e7eb;
+        }
+        h1, h2, h3, .font-display {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .accent-color { color: #2dd4bf; }
+        .bg-accent-color { background-color: #2dd4bf; }
+        .hover\:bg-accent-color-dark:hover { background-color: #14b8a6; }
+        .border-accent-color { border-color: #2dd4bf; }
+        
+        .news-card {
+            background-color: #111111;
+            border: 1px solid #374151;
+            transition: all 0.3s ease-in-out;
+        }
+        .news-card:hover {
+            border-color: #2dd4bf;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(45, 212, 191, 0.1);
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <!-- Header & Navigation -->
+    <header class="bg-black/50 backdrop-blur-md sticky top-0 z-50 border-b border-gray-800">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-white font-display">Aditya Acharya.</a>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="website.html#about" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">About</a>
+                <a href="website.html#projects" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">Projects</a>
+                <a href="website.html#skills" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">Skills</a>
+                <a href="website.html#ai-chatbot" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">AI Chatbot</a>
+                <a href="aivoice.html" class="block py-2 text-gray-300 hover:text-teal-400">AI Voice Assistant</a>
+                <a href="mini.html" class="block py-2 text-gray-300 hover:text-teal-400">Arcade</a>
+                <a href="news.html" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">News</a>
+                <a href="website.html#contact" class="bg-teal-500 text-black font-bold py-2 px-5 rounded-lg hover:bg-teal-400 transition-colors duration-300">Contact Me</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-300 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 border-t border-gray-800">
+            <a href="website.html#about" class="block py-2 text-gray-300 hover:text-teal-400">About</a>
+            <a href="website.html#projects" class="block py-2 text-gray-300 hover:text-teal-400">Projects</a>
+            <a href="website.html#skills" class="block py-2 text-gray-300 hover:text-teal-400">Skills</a>
+            <a href="website.html#ai-chatbot" class="block py-2 text-gray-300 hover:text-teal-400">AI Chatbot</a>
+            <a href="aivoice.html" class="block py-2 text-gray-300 hover:text-teal-400">AI Voice Assistant</a>
+            <a href="mini.html" class="block py-2 text-gray-300 hover:text-teal-400">Arcade</a>
+            <a href="news.html" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">News</a>
+            <a href="website.html#contact" class="block py-2 text-gray-300 hover:text-teal-400">Contact</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="tech-news">
+            <h1 class="text-5xl lg:text-6xl font-bold text-white font-display text-center mb-4">Latest Tech News</h1>
+            <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto">Stay updated with the latest headlines from the world of technology.</p>
+            
+            <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- News articles will be loaded here -->
+                <div class="text-center col-span-full">
+                    <p class="text-lg text-teal-400">Fetching latest news...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-[#111111] mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
+            <p class="mb-2">Designed & Built by Aditya Acharya</p>
+            <p>&copy; <span id="copyright-year"></span> All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+        const newsContainer = document.getElementById('news-container');
+
+        // Note: Using a free proxy to bypass CORS issues with the NewsAPI in a client-side environment.
+        // For a production app, you would typically have a backend server make this request.
+        const NEWS_API_URL = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=YOUR_NEWS_API_KEY');
+        
+        const fetchNews = async () => {
+            try {
+                // The API key provided by the user is now inserted here.
+                const response = await fetch(NEWS_API_URL.replace('YOUR_NEWS_API_KEY', 'f199fff819cd43528888a635d600ae81'));
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const newsData = JSON.parse(data.contents);
+
+                if (newsData.status === "ok") {
+                    displayNews(newsData.articles);
+                } else {
+                    displayError(newsData.message || 'Could not fetch news.');
+                }
+            } catch (error) {
+                console.error('Error fetching tech news:', error);
+                displayError('Failed to fetch news. Check the console for details.');
+            }
+        };
+
+        const displayNews = (articles) => {
+            newsContainer.innerHTML = '';
+            articles.forEach(article => {
+                if (!article.title || !article.urlToImage) return; // Skip articles without a title or image
+
+                const newsCard = document.createElement('a');
+                newsCard.href = article.url;
+                newsCard.target = '_blank';
+                newsCard.rel = 'noopener noreferrer';
+                newsCard.className = 'news-card rounded-2xl overflow-hidden flex flex-col group';
+
+                const publishedDate = new Date(article.publishedAt).toLocaleDateString();
+
+                newsCard.innerHTML = `
+                    <div class="relative">
+                        <img src="${article.urlToImage}" alt="${article.title}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/111111/374151?text=Image+Not+Found';">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <p class="text-sm text-teal-400 font-semibold">${article.source.name}</p>
+                        <h3 class="font-bold text-lg mt-2 text-white flex-grow group-hover:text-teal-400 transition-colors">${article.title}</h3>
+                        <p class="text-xs text-gray-500 mt-4">${publishedDate}</p>
+                    </div>
+                `;
+                newsContainer.appendChild(newsCard);
+            });
+        };
+
+        const displayError = (message) => {
+            newsContainer.innerHTML = `<p class="text-center text-red-400 col-span-full">${message}</p>`;
+        }
+
+        // Fetch news on page load
+        fetchNews();
+    </script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aditya Acharya | AI Voice Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Exo+2:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: #0a0a0a;
+            color: #e5e7eb;
+        }
+        h1, h2, h3, .font-display {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .accent-color { color: #2dd4bf; }
+        .bg-accent-color { background-color: #2dd4bf; }
+        .hover\:bg-accent-color-dark:hover { background-color: #14b8a6; }
+        .border-accent-color { border-color: #2dd4bf; }
+        
+        #mic-btn.is-listening {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(45, 212, 191, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(45, 212, 191, 0); }
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <!-- Header & Navigation -->
+    <header class="bg-black/50 backdrop-blur-md sticky top-0 z-50 border-b border-gray-800">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-white font-display">Aditya Acharya.</a>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="website.html#about" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">About</a>
+                <a href="website.html#projects" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">Projects</a>
+                <a href="website.html#skills" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">Skills</a>
+                <a href="website.html#ai-chatbot" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">AI Chatbot</a>
+                <a href="aivoice.html" class="block py-2 text-gray-300 hover:text-teal-400">AI Voice Assistant</a>
+                <a href="mini.html" class="block py-2 text-gray-300 hover:text-teal-400">Arcade</a>
+                <a href="news.html" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">News</a>
+                <a href="website.html#contact" class="bg-teal-500 text-black font-bold py-2 px-5 rounded-lg hover:bg-teal-400 transition-colors duration-300">Contact Me</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-300 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 border-t border-gray-800">
+            <a href="website.html#about" class="block py-2 text-gray-300 hover:text-teal-400">About</a>
+            <a href="website.html#projects" class="block py-2 text-gray-300 hover:text-teal-400">Projects</a>
+            <a href="website.html#skills" class="block py-2 text-gray-300 hover:text-teal-400">Skills</a>
+            <a href="website.html#ai-chatbot" class="block py-2 text-gray-300 hover:text-teal-400">AI Chatbot</a>
+            <a href="aivoice.html" class="block py-2 text-gray-300 hover:text-teal-400">AI Voice Assistant</a>
+            <a href="mini.html" class="block py-2 text-gray-300 hover:text-teal-400">Arcade</a>
+            <a href="news.html" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">News</a>
+            <a href="website.html#contact" class="block py-2 text-gray-300 hover:text-teal-400">Contact</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6">
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <section class="lg:col-span-2 min-h-[calc(100vh-150px)] flex flex-col justify-center items-center text-center">
+                <h1 class="text-5xl lg:text-6xl font-bold text-white font-display">AI Voice Assistant</h1>
+                <p class="mt-4 text-lg text-gray-400 max-w-2xl">
+                    Click the microphone and ask me anything about technology.
+                </p>
+
+                <div class="mt-12">
+                    <button id="mic-btn" class="bg-teal-500 text-black rounded-full w-32 h-32 flex items-center justify-center transition-all duration-300 hover:scale-105">
+                        <i class="fas fa-microphone-alt text-5xl"></i>
+                    </button>
+                </div>
+
+                <div class="mt-8 min-h-[80px] w-full max-w-3xl">
+                    <p id="status" class="text-xl text-teal-400 font-medium h-8">Click the mic to start</p>
+                    <div id="transcript" class="mt-4 text-gray-300">
+                        <p class="font-semibold">You said:</p>
+                        <p id="user-speech" class="italic min-h-[24px]"></p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sidebar for Links -->
+            <aside class="lg:col-span-1 py-8 lg:py-20">
+                <div class="bg-[#111111] rounded-2xl border border-gray-800 p-6 sticky top-28">
+                    <h3 class="font-bold text-2xl text-white font-display mb-4">Related Links</h3>
+                    <div id="links-container" class="space-y-4">
+                        <p class="text-gray-500">Links related to our conversation will appear here.</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-[#111111]">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
+            <p class="mb-2">Designed & Built by Aditya Acharya</p>
+            <p>&copy; <span id="copyright-year"></span> All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+        const micBtn = document.getElementById('mic-btn');
+        const statusEl = document.getElementById('status');
+        const userSpeechEl = document.getElementById('user-speech');
+        const linksContainer = document.getElementById('links-container');
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        
+        const initialPrompt = `You are a friendly and knowledgeable voice assistant for Aditya Acharya's portfolio. Your name is 'Aditya's AI'. You are an expert in all things tech, programming, and smartphones. When a user asks about a product, news, or a topic that has relevant articles, you MUST respond in a specific JSON format. The JSON object should have two keys: "spokenResponse" (a string containing the conversational text to be spoken out loud) and "links" (an array of objects, where each object has a "title" and a "searchQuery"). The searchQuery should be a concise string perfect for a Google search. DO NOT invent URLs. For example, if asked about "the latest iPhone", your response should be a JSON string like: {"spokenResponse": "The latest model is the iPhone 16 Pro. It features a new A18 chip and an improved camera system. I've added some search links for you.", "links": [{"title": "Official Apple iPhone 16 Pro page", "searchQuery": "Apple iPhone 16 Pro"}, {"title": "TechCrunch Review of iPhone 16", "searchQuery": "TechCrunch iPhone 16 Pro review"}]}. For general conversation, just provide the spokenResponse and an empty links array.`;
+
+        let chatHistory = [
+            { role: "user", parts: [{ text: initialPrompt }] },
+            { role: "model", parts: [{ text: `{"spokenResponse": "Got it! I'm Aditya's AI, ready to answer any tech questions. I will provide search links in the specified JSON format when relevant.", "links": []}` }] }
+        ];
+
+        recognition.onstart = () => {
+            statusEl.textContent = 'Listening...';
+            micBtn.classList.add('is-listening');
+        };
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            userSpeechEl.textContent = `"${transcript}"`;
+            statusEl.textContent = 'Processing...';
+            micBtn.classList.remove('is-listening');
+            
+            chatHistory.push({ role: "user", parts: [{ text: transcript }] });
+            getAIResponse();
+        };
+
+        recognition.onerror = (event) => {
+            statusEl.textContent = 'Error: ' + event.error;
+            micBtn.classList.remove('is-listening');
+        };
+        
+        recognition.onend = () => {
+            if (micBtn.classList.contains('is-listening')) {
+                 statusEl.textContent = 'Click the mic to start';
+                 micBtn.classList.remove('is-listening');
+            }
+        };
+
+        const getAIResponse = async () => {
+            try {
+                const payload = { contents: chatHistory };
+                const apiKey = "AIzaSyBleespIbKAEcZIPilsCvoHmFuxmenMPfU"; // Add your API key here
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) throw new Error(`API Error: ${response.status}`);
+
+                const result = await response.json();
+                
+                if (result.candidates?.[0]?.content?.parts?.[0]) {
+                    const rawResponse = result.candidates[0].content.parts[0].text;
+                    try {
+                        const parsedResponse = JSON.parse(rawResponse);
+                        const { spokenResponse, links } = parsedResponse;
+                        
+                        speak(spokenResponse);
+                        displayLinks(links);
+                        chatHistory.push({ role: "model", parts: [{ text: rawResponse }] });
+
+                    } catch (e) {
+                        console.error("JSON parsing error:", e);
+                        speak(rawResponse); 
+                        displayLinks([]); 
+                        chatHistory.push({ role: "model", parts: [{ text: `{"spokenResponse": "${rawResponse}", "links": []}` }] });
+                    }
+                } else {
+                    speak("I'm sorry, I couldn't come up with a response.");
+                }
+
+            } catch (error) {
+                console.error("AI Response Error:", error);
+                speak("There was an error connecting to the AI. Please try again later.");
+            }
+        };
+
+        const displayLinks = (links) => {
+            linksContainer.innerHTML = ''; 
+            if (!links || links.length === 0) {
+                linksContainer.innerHTML = '<p class="text-gray-500">No links for this topic.</p>';
+                return;
+            }
+
+            links.forEach(link => {
+                const linkEl = document.createElement('a');
+                // Construct a Google search URL from the searchQuery
+                const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(link.searchQuery)}`;
+                linkEl.href = searchUrl;
+                linkEl.target = '_blank';
+                linkEl.rel = 'noopener noreferrer';
+                linkEl.className = 'block bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition-colors';
+                linkEl.innerHTML = `
+                    <p class="font-semibold text-teal-400">${link.title}</p>
+                    <p class="text-sm text-gray-500 truncate">Search for: ${link.searchQuery}</p>
+                `;
+                linksContainer.appendChild(linkEl);
+            });
+        };
+
+        const speak = (text) => {
+            const utterance = new SpeechSynthesisUtterance(text);
+            
+            let voices = window.speechSynthesis.getVoices();
+            
+            const setVoice = () => {
+                voices = window.speechSynthesis.getVoices();
+                let femaleVoice = voices.find(voice => voice.name === 'Google UK English Female') ||
+                                  voices.find(voice => voice.lang.includes('en') && voice.name.includes('Female')) ||
+                                  voices.find(voice => voice.lang.includes('en') && voice.gender === 'female');
+                
+                if (femaleVoice) utterance.voice = femaleVoice;
+            };
+
+            if (voices.length > 0) {
+                setVoice();
+            } else {
+                window.speechSynthesis.onvoiceschanged = setVoice;
+            }
+
+            utterance.onstart = () => {
+                 statusEl.textContent = 'Speaking...';
+            };
+            utterance.onend = () => {
+                 statusEl.textContent = 'Click the mic to start';
+            };
+            window.speechSynthesis.speak(utterance);
+        };
+
+        micBtn.addEventListener('click', () => {
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+            recognition.start();
+        });
+
+    </script>
+</body>
+</html>

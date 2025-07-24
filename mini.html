@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aditya Acharya | Mini Games</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Exo+2:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: #0a0a0a; /* Near black */
+            color: #e5e7eb; /* Light gray for text */
+        }
+        h1, h2, h3, .font-display {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .accent-color { color: #2dd4bf; } /* Brighter Teal */
+        .bg-accent-color { background-color: #2dd4bf; }
+        .hover\:bg-accent-color-dark:hover { background-color: #14b8a6; }
+        .border-accent-color { border-color: #2dd4bf; }
+        .ring-accent-color:focus { --tw-ring-color: #2dd4bf; }
+
+        /* Animations */
+        .section-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .section-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #hero-illustration {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Game Specific Styles */
+        .game-card {
+            background-color: #111111;
+            border: 1px solid #374151;
+            transition: all 0.3s ease-in-out;
+        }
+        .game-card:hover {
+            border-color: #2dd4bf;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(45, 212, 191, 0.1);
+        }
+        .tic-tac-toe-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+        .tic-tac-toe-cell {
+            width: 80px;
+            height: 80px;
+            background-color: #1f2937;
+            border: 2px solid #374151;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            color: #e5e7eb;
+        }
+        .tic-tac-toe-cell:hover {
+            background-color: #374151;
+        }
+
+        /* Memory Game Styles */
+        .memory-card {
+            width: 100px;
+            height: 100px;
+            background-color: #1f2937;
+            border: 2px solid #374151;
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+        .memory-card .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+        }
+        .card-front {
+            background-color: #374151;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+            color: #2dd4bf;
+        }
+        .memory-card.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .memory-card.is-matched {
+            border-color: #2dd4bf;
+            cursor: default;
+        }
+
+        /* Snake Game Styles */
+        #snake-canvas {
+            background-color: #000;
+            border: 2px solid #374151;
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+
+    <!-- Header & Navigation -->
+    <header class="bg-black/50 backdrop-blur-md sticky top-0 z-50 border-b border-gray-800">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-white font-display">Aditya Acharya.</a>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="website.html#about" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">About</a>
+                <a href="website.html#projects" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">Projects</a>
+                <a href="website.html#skills" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">Skills</a>
+                <a href="website.html#ai-chatbot" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">AI Chatbot</a>
+                <a href="aivoice.html" class="block py-2 text-gray-300 hover:text-teal-400">AI Voice Assistant</a>
+                <a href="mini.html" class="block py-2 text-gray-300 hover:text-teal-400">Arcade</a>
+                <a href="news.html" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">News</a>
+                <a href="website.html#contact" class="bg-teal-500 text-black font-bold py-2 px-5 rounded-lg hover:bg-teal-400 transition-colors duration-300">Contact Me</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-gray-300 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 border-t border-gray-800">
+            <a href="website.html#about" class="block py-2 text-gray-300 hover:text-teal-400">About</a>
+            <a href="website.html#projects" class="block py-2 text-gray-300 hover:text-teal-400">Projects</a>
+            <a href="website.html#skills" class="block py-2 text-gray-300 hover:text-teal-400">Skills</a>
+            <a href="website.html#ai-chatbot" class="block py-2 text-gray-300 hover:text-teal-400">AI Chatbot</a>
+            <a href="aivoice.html" class="block py-2 text-gray-300 hover:text-teal-400">AI Voice Assistant</a>
+            <a href="mini.html" class="block py-2 text-gray-300 hover:text-teal-400">Arcade</a>
+            <a href="news.html" class="text-gray-300 hover:text-teal-400 transition-colors duration-300 font-medium">News</a>
+            <a href="website.html#contact" class="block py-2 text-gray-300 hover:text-teal-400">Contact</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6">
+        <!-- Hero Section -->
+        <section id="home" class="min-h-[calc(80vh)] flex items-center py-20">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left">
+                    <span class="font-semibold text-teal-400 font-display tracking-widest">WELCOME TO THE ARCADE</span>
+                    <h1 class="text-5xl lg:text-6xl font-bold tracking-tight text-white mt-2 font-display">
+                        Mini-Games
+                    </h1>
+                    <p class="mt-6 text-lg text-gray-400 max-w-lg mx-auto md:mx-0">
+                        A collection of classic mini-games, built with a futuristic twist. Select a game below to start playing.
+                    </p>
+                </div>
+                <div class="hidden md:block">
+                     <svg id="hero-illustration" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                      <path fill="#2DD4BF" d="M50.5,-67.1C64.6,-57.2,74.6,-41.8,79.2,-25.1C83.8,-8.4,83.1,9.6,76.3,25.4C69.5,41.2,56.6,54.8,41.8,65.3C27,75.8,10.3,83.2,-6.5,85.1C-23.3,87,-40.3,83.4,-53.4,74.1C-66.5,64.8,-75.7,49.8,-79.1,33.9C-82.5,18,-80.1,1.2,-74.8,-13.6C-69.5,-28.4,-61.3,-41.2,-49.8,-50.7C-38.3,-60.2,-23.5,-66.4,-8.2,-69.3C7.1,-72.2,22.4,-72.1,36.4,-67.1" transform="translate(100 100) scale(1.1)" />
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Games Section -->
+        <section id="games" class="py-20 section-fade-in">
+            <h2 class="text-4xl font-bold text-center mb-12 text-white font-display">Select a Game</h2>
+            <div id="games-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Game Card 1: Tic-Tac-Toe -->
+                <a href="#tic-tac-toe-game" class="game-card rounded-2xl p-6 flex flex-col items-center text-center">
+                    <i class="fas fa-border-all text-5xl text-teal-400 mb-4"></i>
+                    <h3 class="font-bold text-2xl mb-2 text-white font-display">Tic-Tac-Toe</h3>
+                    <p class="text-gray-400">The classic game of X's and O's. Can you beat the AI?</p>
+                </a>
+                <!-- Game Card 2: Memory Game -->
+                 <a href="#memory-game" class="game-card rounded-2xl p-6 flex flex-col items-center text-center">
+                    <i class="fas fa-brain text-5xl text-teal-400 mb-4"></i>
+                    <h3 class="font-bold text-2xl mb-2 text-white font-display">Memory Game</h3>
+                    <p class="text-gray-400">Test your memory by matching pairs of cards.</p>
+                </a>
+                <!-- Game Card 3: Snake -->
+                 <a href="#snake-game" class="game-card rounded-2xl p-6 flex flex-col items-center text-center">
+                    <i class="fas fa-staff-snake text-5xl text-teal-400 mb-4"></i>
+                    <h3 class="font-bold text-2xl mb-2 text-white font-display">Snake</h3>
+                    <p class="text-gray-400">Control the snake, eat the food, and grow as long as you can.</p>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Tic-Tac-Toe Game Section -->
+        <section id="tic-tac-toe-game" class="py-20 section-fade-in">
+             <h2 class="text-4xl font-bold text-center mb-12 text-white font-display">Tic-Tac-Toe</h2>
+             <div class="max-w-md mx-auto bg-[#111111] rounded-2xl border border-gray-800 p-8 flex flex-col items-center">
+                <div class="tic-tac-toe-board mb-6">
+                    <!-- Cells are generated dynamically if needed, or static -->
+                    <div data-cell-index="0" class="tic-tac-toe-cell rounded-lg"></div>
+                    <div data-cell-index="1" class="tic-tac-toe-cell rounded-lg"></div>
+                    <div data-cell-index="2" class="tic-tac-toe-cell rounded-lg"></div>
+                    <div data-cell-index="3" class="tic-tac-toe-cell rounded-lg"></div>
+                    <div data-cell-index="4" class="tic-tac-toe-cell rounded-lg"></div>
+                    <div data-cell-index="5" class="tic-tac-toe-cell rounded-lg"></div>
+                    <div data-cell-index="6" class="tic-tac-toe-cell rounded-lg"></div>
+                    <div data-cell-index="7" class="tic-tac-toe-cell rounded-lg"></div>
+                    <div data-cell-index="8" class="tic-tac-toe-cell rounded-lg"></div>
+                </div>
+                <p id="tic-tac-toe-status" class="text-lg text-teal-400 font-medium h-6">Your Turn (X)</p>
+                <button id="tic-tac-toe-reset" class="mt-4 bg-teal-500 text-black font-bold py-2 px-6 rounded-lg hover:bg-teal-400 transition-colors duration-300">Reset</button>
+             </div>
+        </section>
+
+        <!-- Memory Game Section -->
+        <section id="memory-game" class="py-20 section-fade-in">
+            <h2 class="text-4xl font-bold text-center mb-12 text-white font-display">Memory Game</h2>
+            <div class="max-w-xl mx-auto bg-[#111111] rounded-2xl border border-gray-800 p-8 flex flex-col items-center">
+                <div id="memory-game-board" class="grid grid-cols-4 gap-4 mb-6">
+                    <!-- Cards will be generated by JS -->
+                </div>
+                <p id="memory-game-status" class="text-lg text-teal-400 font-medium h-6">Moves: 0</p>
+                <button id="memory-game-reset" class="mt-4 bg-teal-500 text-black font-bold py-2 px-6 rounded-lg hover:bg-teal-400 transition-colors duration-300">Reset</button>
+            </div>
+        </section>
+
+        <!-- Snake Game Section -->
+        <section id="snake-game" class="py-20 section-fade-in">
+            <h2 class="text-4xl font-bold text-center mb-12 text-white font-display">Snake</h2>
+            <div class="max-w-lg mx-auto bg-[#111111] rounded-2xl border border-gray-800 p-8 flex flex-col items-center">
+                <canvas id="snake-canvas" width="400" height="400" class="rounded-lg"></canvas>
+                <div class="mt-6 flex justify-between w-full items-center">
+                    <p id="snake-score" class="text-lg text-teal-400 font-medium">Score: 0</p>
+                    <button id="snake-start" class="bg-teal-500 text-black font-bold py-2 px-6 rounded-lg hover:bg-teal-400 transition-colors duration-300">Start Game</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 section-fade-in bg-[#111111] rounded-2xl">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl font-bold text-white font-display">About This Arcade</h2>
+                <p class="mt-6 text-lg text-gray-400">
+                    This mini-games arcade is a personal project by Aditya Acharya to demonstrate front-end development skills and explore game logic with JavaScript. Each game is designed with a clean, futuristic aesthetic to match the portfolio's theme.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#111111] mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
+            <p class="mb-2">Games by Aditya Acharya</p>
+            <p>&copy; <span id="copyright-year"></span> All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- General Setup ---
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Set copyright year
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+        // Intersection Observer for fade-in animations
+        const sections = document.querySelectorAll('.section-fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- Tic-Tac-Toe Game Logic ---
+        const ticTacToeStatus = document.getElementById('tic-tac-toe-status');
+        const ticTacToeCells = document.querySelectorAll('.tic-tac-toe-cell');
+        const ticTacToeResetBtn = document.getElementById('tic-tac-toe-reset');
+
+        let ticTacToeState = ["", "", "", "", "", "", "", "", ""];
+        let currentPlayer = "X";
+        let isGameActive = true;
+        const winningConditions = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        const handleResultValidation = () => {
+            let roundWon = false;
+            for (let i = 0; i < winningConditions.length; i++) {
+                const winCondition = winningConditions[i];
+                let a = ticTacToeState[winCondition[0]];
+                let b = ticTacToeState[winCondition[1]];
+                let c = ticTacToeState[winCondition[2]];
+                if (a === '' || b === '' || c === '') continue;
+                if (a === b && b === c) {
+                    roundWon = true;
+                    break;
+                }
+            }
+
+            if (roundWon) {
+                ticTacToeStatus.innerHTML = `Player ${currentPlayer} has won!`;
+                isGameActive = false;
+                return;
+            }
+
+            if (!ticTacToeState.includes("")) {
+                ticTacToeStatus.innerHTML = `Game ended in a draw!`;
+                isGameActive = false;
+                return;
+            }
+        };
+
+        const handleCellClick = (clickedCellEvent) => {
+            const clickedCell = clickedCellEvent.target;
+            const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'));
+
+            if (ticTacToeState[clickedCellIndex] !== "" || !isGameActive || currentPlayer !== 'X') {
+                return;
+            }
+
+            ticTacToeState[clickedCellIndex] = currentPlayer;
+            clickedCell.innerHTML = currentPlayer;
+            handleResultValidation();
+
+            if (isGameActive) {
+                currentPlayer = "O";
+                ticTacToeStatus.innerHTML = `Player O's Turn`;
+                setTimeout(aiMove, 500);
+            }
+        };
+
+        const aiMove = () => {
+            if (!isGameActive) return;
+            let availableCells = [];
+            ticTacToeState.forEach((cell, index) => {
+                if (cell === "") {
+                    availableCells.push(index);
+                }
+            });
+
+            if (availableCells.length > 0) {
+                const move = availableCells[Math.floor(Math.random() * availableCells.length)];
+                ticTacToeState[move] = currentPlayer;
+                document.querySelector(`[data-cell-index='${move}']`).innerHTML = currentPlayer;
+                handleResultValidation();
+                if (isGameActive) {
+                    currentPlayer = "X";
+                    ticTacToeStatus.innerHTML = `Player X's Turn`;
+                }
+            }
+        };
+
+        const handleRestartGame = () => {
+            isGameActive = true;
+            currentPlayer = "X";
+            ticTacToeState = ["", "", "", "", "", "", "", "", ""];
+            ticTacToeStatus.innerHTML = `Player X's Turn`;
+            ticTacToeCells.forEach(cell => cell.innerHTML = "");
+        };
+
+        ticTacToeCells.forEach(cell => cell.addEventListener('click', handleCellClick));
+        ticTacToeResetBtn.addEventListener('click', handleRestartGame);
+
+
+        // --- Memory Game Logic ---
+        const memoryBoard = document.getElementById('memory-game-board');
+        const memoryStatus = document.getElementById('memory-game-status');
+        const memoryResetBtn = document.getElementById('memory-game-reset');
+        
+        const icons = ['fa-ghost', 'fa-hat-wizard', 'fa-dragon', 'fa-skull-crossbones', 'fa-shield-halved', 'fa-dungeon', 'fa-ring', 'fa-scroll'];
+        const cardValues = [...icons, ...icons];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let lockBoard = false;
+
+        const shuffle = (array) => array.sort(() => 0.5 - Math.random());
+
+        function startGameMemory() {
+            memoryBoard.innerHTML = '';
+            matchedPairs = 0;
+            moves = 0;
+            memoryStatus.textContent = `Moves: 0`;
+            lockBoard = false;
+            let shuffledCards = shuffle(cardValues);
+            
+            shuffledCards.forEach(value => {
+                const card = document.createElement('div');
+                card.classList.add('memory-card', 'rounded-lg');
+                card.dataset.value = value;
+                card.innerHTML = `
+                    <div class="card-face card-front rounded-lg"></div>
+                    <div class="card-face card-back rounded-lg"><i class="fas ${value}"></i></div>
+                `;
+                card.addEventListener('click', flipCard);
+                memoryBoard.appendChild(card);
+            });
+        }
+
+        function flipCard() {
+            if (lockBoard || this.classList.contains('is-flipped')) return;
+            this.classList.add('is-flipped');
+            flippedCards.push(this);
+            if (flippedCards.length === 2) {
+                moves++;
+                memoryStatus.textContent = `Moves: ${moves}`;
+                lockBoard = true;
+                checkForMatch();
+            }
+        }
+
+        function checkForMatch() {
+            const [card1, card2] = flippedCards;
+            if (card1.dataset.value === card2.dataset.value) {
+                card1.classList.add('is-matched');
+                card2.classList.add('is-matched');
+                matchedPairs++;
+                resetBoard();
+                if (matchedPairs === icons.length) {
+                    setTimeout(() => {
+                        memoryStatus.textContent = `You won in ${moves} moves!`;
+                    }, 500);
+                }
+            } else {
+                setTimeout(() => {
+                    card1.classList.remove('is-flipped');
+                    card2.classList.remove('is-flipped');
+                    resetBoard();
+                }, 1000);
+            }
+        }
+
+        function resetBoard() {
+            [flippedCards, lockBoard] = [[], false];
+        }
+        
+        memoryResetBtn.addEventListener('click', startGameMemory);
+        startGameMemory();
+
+        // --- Snake Game Logic ---
+        const snakeCanvas = document.getElementById('snake-canvas');
+        const snakeCtx = snakeCanvas.getContext('2d');
+        const snakeScoreEl = document.getElementById('snake-score');
+        const snakeStartBtn = document.getElementById('snake-start');
+
+        const gridSize = 20;
+        let snake = [{ x: 10, y: 10 }];
+        let food = {};
+        let dx = 0;
+        let dy = 0;
+        let score = 0;
+        let gameLoop;
+        let changingDirection = false;
+
+        const main = () => {
+            if (didGameEnd()) {
+                snakeStartBtn.textContent = 'Restart Game';
+                clearInterval(gameLoop);
+                return;
+            }
+            changingDirection = false;
+            setTimeout(() => {
+                clearCanvas();
+                drawFood();
+                moveSnake();
+                drawSnake();
+                main();
+            }, 100);
+        };
+
+        const startGameSnake = () => {
+            if (gameLoop) clearInterval(gameLoop);
+            snake = [{ x: 10, y: 10 }];
+            dx = gridSize;
+            dy = 0;
+            score = 0;
+            snakeScoreEl.textContent = `Score: 0`;
+            generateFood();
+            main();
+        };
+        
+        const clearCanvas = () => snakeCtx.clearRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+        
+        const drawSnakePart = (part) => {
+            snakeCtx.fillStyle = '#2dd4bf';
+            snakeCtx.strokeStyle = '#0a0a0a';
+            snakeCtx.fillRect(part.x * gridSize, part.y * gridSize, gridSize, gridSize);
+            snakeCtx.strokeRect(part.x * gridSize, part.y * gridSize, gridSize, gridSize);
+        };
+
+        const drawSnake = () => snake.forEach(drawSnakePart);
+        
+        const moveSnake = () => {
+            const head = { x: snake[0].x + dx / gridSize, y: snake[0].y + dy / gridSize };
+            snake.unshift(head);
+            const didEatFood = snake[0].x === food.x && snake[0].y === food.y;
+            if (didEatFood) {
+                score += 10;
+                snakeScoreEl.textContent = `Score: ${score}`;
+                generateFood();
+            } else {
+                snake.pop();
+            }
+        };
+
+        const generateFood = () => {
+            food.x = Math.floor(Math.random() * (snakeCanvas.width / gridSize));
+            food.y = Math.floor(Math.random() * (snakeCanvas.height / gridSize));
+            snake.forEach(part => {
+                if (part.x === food.x && part.y === food.y) generateFood();
+            });
+        };
+
+        const drawFood = () => {
+            snakeCtx.fillStyle = '#f87171';
+            snakeCtx.strokeStyle = '#0a0a0a';
+            snakeCtx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+            snakeCtx.strokeRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+        };
+
+        const didGameEnd = () => {
+            for (let i = 4; i < snake.length; i++) {
+                if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) return true;
+            }
+            const hitLeftWall = snake[0].x < 0;
+            const hitRightWall = snake[0].x > (snakeCanvas.width / gridSize) - 1;
+            const hitTopWall = snake[0].y < 0;
+            const hitBottomWall = snake[0].y > (snakeCanvas.height / gridSize) - 1;
+            return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall;
+        };
+
+        const changeDirection = (event) => {
+            if (changingDirection) return;
+            changingDirection = true;
+            const keyPressed = event.key;
+            const goingUp = dy === -gridSize;
+            const goingDown = dy === gridSize;
+            const goingRight = dx === gridSize;
+            const goingLeft = dx === -gridSize;
+
+            if (keyPressed === 'ArrowLeft' && !goingRight) { dx = -gridSize; dy = 0; }
+            if (keyPressed === 'ArrowUp' && !goingDown) { dx = 0; dy = -gridSize; }
+            if (keyPressed === 'ArrowRight' && !goingLeft) { dx = gridSize; dy = 0; }
+            if (keyPressed === 'ArrowDown' && !goingUp) { dx = 0; dy = gridSize; }
+        };
+
+        snakeStartBtn.addEventListener('click', startGameSnake);
+        document.addEventListener('keydown', changeDirection);
+
+    </script>
+</body>
+</html>
